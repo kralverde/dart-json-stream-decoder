@@ -3,15 +3,15 @@ description:
     A JSON parser that's capable of handling streams of characters.
     It doesn't depend on dart:io or dart:html so it can be used
     either in the client- or server- side.
-version: 2.0.1
+version: 2.0.2
 author: Adam Stark <llamadonica@gmail.com>
 homepage: https://github.com/llamadonica/dart-json-stream-parser
 
 environment:
-  sdk: '>=1.16.0 <2.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   quiver: '^0.22.0'
 
 dev_dependencies:
-  test: '>=0.12.0 <0.13.0'
+  test: '^1.16.0'
