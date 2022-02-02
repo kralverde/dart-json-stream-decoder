@@ -6,14 +6,27 @@ library json_stream_parser.test;
 import 'dart:async';
 import 'dart:convert' as dart_convert;
 import 'dart:typed_data';
-
+import 'dart:core';
+import 'package:collection/collection.dart';
 import 'package:json_stream_parser/json_stream_parser.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('basic test', () async {
-    final stream = Stream.fromIterable(['{"test":"', 'okay"}\n', '{"test2": "', 'also okay"}']).transform(ContinuousJsonDecoder());
-    stream.listen((data) => print(data));
+    List<String> chunks = [];
+    int chunkSize = 10;
+    var letters = TEST_STRING.split("");
+    for (var i = 0; i < letters.length; i += chunkSize) {
+      var broken_chunk = letters.sublist(i, i+chunkSize > letters.length ? letters.length : i + chunkSize); 
+      chunks.add(broken_chunk.join());
+    }
+    final stream = Stream.fromIterable(chunks + chunks + chunks).transform(ContinuousJsonDecoder());
+    stream.listen(
+      (data) => {
+        print('Is equal?: ' + DeepCollectionEquality().equals(data, dart_convert.jsonDecode(TEST_STRING)).toString())
+      }
+    );
+    await Future.delayed(Duration(seconds: 1));
   });
 }
 
